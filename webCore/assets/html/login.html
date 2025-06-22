@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZapCards Login</title>
+    <script src="/assets/js/tailwind.js"></script>
+    <link rel="stylesheet" href="/assets/css/notyf.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/assets/images/zapCards.png">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body
+    class="h-full bg-gradient-to-br from-[#1f1c2c] via-[#8f26ca] to-[#3f2b96] flex items-center justify-center text-white">
+    <div class="max-w-md w-full px-8 py-10 rounded-3xl glass animate-fade-in-up">
+        <h2 class="text-3xl font-bold text-center mb-8 text-purple-300">ZapCards</h2>
+        <form class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-purple-200 mb-1" for="username">Username</label>
+                <input type="username" id="username"
+                    class="w-full px-4 py-3 rounded-xl bg-[#2e2b4f] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
+                    placeholder="you@example.com" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-purple-200 mb-1" for="password">Password</label>
+                <input type="password" id="password"
+                    class="w-full px-4 py-3 rounded-xl bg-[#2e2b4f] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
+                    placeholder="••••••••" />
+            </div>
+
+            <button type="submit"
+                class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-500 to-purple-700 hover:from-purple-700 hover:to-indigo-600 transition-all duration-300 font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]">Sign
+                In</button>
+        </form>
+        <p class="mt-6 text-sm text-center text-purple-200">
+            Don't have an account?
+            <a href="https://github.com/gm852/zapCards?tab=readme-ov-file#Login" target="_blank"
+                class="text-purple-400 hover:underline">Check The Docs</a>
+        </p>
+    </div>
+
+    <script src="/assets/js/notyf.min.js"></script>
+    <script>
+        // fade-in animation
+        document.querySelector('.animate-fade-in-up').style.opacity = 0;
+        document.addEventListener('DOMContentLoaded', () => {
+            const box = document.querySelector('.animate-fade-in-up');
+            box.style.transition = 'all 1s ease';
+            box.style.transform = 'translateY(20px)';
+            requestAnimationFrame(() => {
+                box.style.opacity = 1;
+                box.style.transform = 'translateY(0)';
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const notyf = new Notyf({
+                duration: 5000,
+                position: { x: 'right', y: 'top' },
+                dismissible: true,
+                ripple: true,
+                types: [
+                    {
+                        type: 'success',
+                        background: 'linear-gradient(135deg, #10b981, #06b6d4)',
+                    },
+                    {
+                        type: 'error',
+                        background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                    }
+                ]
+            });
+
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const username = document.getElementById("username").value.trim();
+                const password = document.getElementById("password").value.trim();
+
+                if (!username || !password) {
+                    return notyf.error("All fields are required.");
+                }
+
+                if (username.length <= 4) {
+                    return notyf.error("username must be longer than 4 characters.");
+                }
+
+                if (password.length < 8) {
+                    return notyf.error("Password must be at least 8 characters.");
+                }
+
+                try {
+                    const response = await fetch("/api/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        const errorMessage = data?.message || "Login failed. Please try again.";
+                        return notyf.error(errorMessage);
+                    }
+
+                    notyf.success("Login successful!");
+
+                    // go to login
+                    setTimeout(() => {
+                        window.location.href = "/";
+                    }, 1000);
+                } catch (err) {
+                    console.error(err);
+                    notyf.error("Network error. Please try again.");
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

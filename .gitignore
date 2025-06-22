@@ -1,0 +1,6 @@
+logs/*
+*.db
+*.log
+venv/
+__pycache__/
+settings.conf

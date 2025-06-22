@@ -1,0 +1,10 @@
+sanic>=24.12
+jinja2
+sanic_jwt
+sanic_ext
+sanic_limiter
+bcrypt
+sqlalchemy
+ollama
+psycopg2-binary
+openai

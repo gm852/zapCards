@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./data:/app/data
+      - ./settings.conf:/app/settings.conf
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_PATH=/database.db
+    depends_on:
+      - ollama
+    networks:
+      - app-network
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - app-network
+
+volumes:
+  ollama_data:
+
+networks:
+  app-network:
+    driver: bridge

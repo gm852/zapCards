@@ -1,0 +1,34 @@
+[setup]
+# require auth to access (non logged in users data will stay for 7 days)
+require_auth = False
+# resets admin to the default password
+reset_default_user = true
+# erase all tables on reset to default user
+erase_database_on_reset = false
+
+[general]
+restart_required = false
+# randomized token to make the jwt tokens
+secret_session_token = sdhokfhp9
+# time for tokens to expire in seconds
+jwt_expire_time = 21600
+
+[database]
+#  <ip:port> OR /path/to/db.db for sqlite
+database_url = database.db
+# name of database <zapCards>
+database_name = zapCards
+# <user@password> OR <user>
+database_creds = 
+# PostgreSQL | MySQL | MariaDB | SQLite
+database_type = SQLite
+
+[ai]
+# openai / ollama
+model_type = ollama
+# only needed for openai
+modal_name = gpt-4o
+endpoint_url = 127.0.0.1
+endpoint_port = 11434
+OPENAI_API_KEY= false
+prompt_presets_path = webCore/assets/prompt_presets.json

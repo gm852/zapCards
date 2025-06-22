@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - ZapCards</title>
+    <script src="/assets/js/tailwind.js"></script>
+    <link rel="stylesheet" href="/assets/css/notyf.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/assets/images/zapCards.png">
+    <link href="/assets/css/settings.css" rel="stylesheet">
+
+</head>
+
+<body class="min-h-full neon-bg text-white">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <div class="mb-8 animate-fade-in-up">
+            <h1 class="text-4xl font-bold text-center text-white mb-2 drop-shadow-lg">Settings</h1>
+            <p class="text-center text-white opacity-90 drop-shadow">Configure your ZapCards instance</p>
+            <div class="flex items-center">
+                <button onclick="history.back()"
+                    class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group"
+                    title="Go Back">
+                    <svg class="w-6 h-6 text-gray-400 group-hover:text-white group-hover:-translate-x-1 transition-all duration-200"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Settings Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+            <!-- AI Configuration Section -->
+            <div class="glass rounded-3xl p-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center drop-shadow">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                        </path>
+                    </svg>
+                    AI Configuration
+                </h2>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">Model Type</label>
+                        <select id="model_type" data-model-type=""
+                            class="w-full px-4 py-3 rounded-xl bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm">
+                            <option value="openai">OpenAI</option>
+                            <option value="ollama">Ollama</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">Endpoint URL</label>
+                        <input type="text" id="endpoint_url" placeholder="127.0.0.1 or api.openai.com"
+                            class="w-full px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">Endpoint Port</label>
+                        <input type="number" id="endpoint_port" placeholder="11434"
+                            class="w-full px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">OpenAI API Key</label>
+                        <div class="relative">
+                            <input type="password" id="openai_api_key" placeholder="sk-..."
+                                class="w-full px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 pr-12 backdrop-blur-sm" />
+                            <button type="button" onclick="togglePassword('openai_api_key')"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">Prompt Presets Path</label>
+                        <input type="text" id="prompt_presets_path" placeholder="./presets/"
+                            class="w-full px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm" />
+                    </div>
+                </div>
+
+                <!-- save button -->
+                <div class="mt-6">
+                    <button onclick="saveSettings()"
+                        class="w-full py-4 rounded-xl bg-black/40 hover:bg-black/60 transition-all duration-300 font-bold text-white text-lg shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] backdrop-blur-sm border border-white/20">
+                        Save AI Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- general -->
+            <div class="glass rounded-3xl p-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center drop-shadow">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    General Settings
+                </h2>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">JWT Expire Time
+                            (seconds)</label>
+                        <input type="number" id="jwt_expire_time" placeholder="3600"
+                            class="w-full px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">Require
+                            Authentication</label>
+                        <div
+                            class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" id="require_auth"
+                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+                            <label for="require_auth"
+                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                        <span class="text-white opacity-90">Enable user authentication</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2 opacity-90">Reset Default User</label>
+                        <div
+                            class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" id="reset_default_user"
+                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+                            <label for="reset_default_user"
+                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                        <span class="text-white opacity-90">Reset default user on restart</span>
+                    </div>
+                </div>
+
+                <!-- system -->
+                <div class="mt-8 pt-6 border-t border-white/20">
+                    <h3 class="text-lg font-semibold text-white mb-4 opacity-90">System Actions</h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <button onclick="restartZapCards()"
+                            class="w-full py-3 rounded-xl bg-black/40 hover:bg-black/60 transition-all duration-300 font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] backdrop-blur-sm border border-white/20">
+                            Restart ZapCards
+                        </button>
+                        <button onclick="restartOllamaService()"
+                            class="w-full py-3 rounded-xl bg-black/40 hover:bg-black/60 transition-all duration-300 font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] backdrop-blur-sm border border-white/20">
+                            Restart Ollama
+                        </button>
+
+                        <button onclick="exportSettings()"
+                            class="w-full py-3 rounded-xl bg-green-500/60 hover:green-500/80 transition-all duration-300 font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] backdrop-blur-sm border border-white/20">
+                            Export Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ollama config -->
+            <div id="ollamaConfig" class="glass rounded-3xl p-8 animate-fade-in-up xl:col-span-2"
+                style="animation-delay: 0.3s;">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center drop-shadow">
+                    <span class="text-2xl mr-3">🦙</span>
+                    Ollama Configuration
+                </h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-semibold text-white opacity-90">Installed Models</h3>
+                                <button onclick="refreshOllamaModels()"
+                                    class="px-4 py-2 rounded-lg bg-blue-500/60 hover:bg-blue-500/80 transition-all duration-300 text-sm font-medium text-white backdrop-blur-sm border border-white/20 flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                        </path>
+                                    </svg>
+                                    Refresh
+                                </button>
+                            </div>
+
+                            <div id="installed_models" class="space-y-3 max-h-80 overflow-y-auto">
+
+
+                            </div>
+                        </div>
+
+                        <!-- pull new model -->
+                        <div class="pt-6 border-t border-white/20">
+                            <h4 class="text-lg font-semibold text-white mb-3 opacity-90">Pull New Model</h4>
+                            <div class="flex gap-2 mb-2">
+                                <input type="text" id="ollama_model_pull"
+                                    placeholder="e.g., deepseek-r1, gemma3, qwen3, llama4"
+                                    class="flex-1 px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm" />
+                                <button onclick="pullOllamaModel()"
+                                    class="px-6 py-3 rounded-xl bg-purple-500/60 hover:bg-purple-500/80 transition-all duration-300 font-medium text-white backdrop-blur-sm border border-white/20">
+                                    Pull
+                                </button>
+                            </div>
+                            <p class="text-xs text-white/60 mb-4">Popular models: deepseek-r1, gemma3, qwen3, llama4</p>
+
+                            <!-- progress bar -->
+                            <div id="pull_progress" class="hidden">
+                                <div class="progress-bar mb-2">
+                                    <div id="progress_fill" class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <p id="progress_text" class="text-xs text-white/80">Downloading model...</p>
+                                <button onclick="cancelModelPull()"
+                                    class="px-3 p-2 py-1 rounded-md bg-red-500/60 hover:bg-red-500/80 text-white text-sm transition-colors backdrop-blur-sm border border-white/20">
+                                    Cancel Pull
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- model test -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-semibold text-white opacity-90">Model Test</h3>
+
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2 opacity-90">Active Model</label>
+                            <select id="ollama_model_select"
+                                class="w-full px-4 py-3 rounded-xl bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm">
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2 opacity-90">Input Prompt</label>
+                            <textarea id="ollama_input_prompt" rows="4" placeholder="You are a helpful AI assistant..."
+                                class="w-full px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm resize-none"></textarea>
+                        </div>
+
+                        <!-- test res -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-sm font-medium text-white opacity-90">Response</label>
+
+                            </div>
+                            <div id="test_response"
+                                class="px-4 py-3 rounded-xl bg-black/20 text-white/80 text-sm min-h-[120px] border border-white/10">
+                                Click "Generate Response" to test the selected model...
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 pt-4">
+                            <button onclick="generateOllamaResponse()"
+                                class="flex-1 py-3 rounded-xl bg-blue-500/60 hover:bg-blue-500/80 transition-all duration-300 font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] backdrop-blur-sm border border-white/20">
+                                Generate Response
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- users -->
+            <div class="glass rounded-3xl p-8 animate-fade-in-up xl:col-span-2" style="animation-delay: 0.4s;">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center drop-shadow">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z">
+                        </path>
+                    </svg>
+                    User Management
+                </h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- new user -->
+                    <div class="glass-light rounded-2xl p-6">
+                        <h3 class="text-xl font-semibold text-white mb-4 opacity-90">Create New User</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-2 opacity-90">Username</label>
+                                <input type="text" id="new_username" placeholder="Enter username"
+                                    class="w-full px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-2 opacity-90">Password</label>
+                                <div class="flex gap-2">
+                                    <input type="password" id="new_password" placeholder="Enter password"
+                                        class="flex-1 px-4 py-3 rounded-xl bg-black/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm" />
+                                    <button onclick="generatePassword()"
+                                        class="px-4 py-3 rounded-xl bg-black/40 hover:bg-black/60 transition-all duration-300 font-medium text-white backdrop-blur-sm border border-white/20">
+                                        Generate
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-2 opacity-90">Role</label>
+                                <select id="new_user_role"
+                                    class="w-full px-4 py-3 rounded-xl bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition duration-300 backdrop-blur-sm">
+                                    <option value="user">user</option>
+                                    <option value="admin">admin</option>
+                                </select>
+                            </div>
+                            <button onclick="createUser()"
+                                class="w-full py-3 rounded-xl bg-black/40 hover:bg-black/60 transition-all duration-300 font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] backdrop-blur-sm border border-white/20">
+                                Create User
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- existing users -->
+                    <div class="glass-light rounded-2xl p-6">
+                        <h3 class="text-xl font-semibold text-white mb-4 opacity-90">Existing Users</h3>
+                        <div class="space-y-3 max-h-80 overflow-y-auto" id="users_list">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/notyf.min.js"></script>
+    <script src="/assets/js/settings.js"></script>
+
+</body>
+
+</html>
