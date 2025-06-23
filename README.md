@@ -4,12 +4,12 @@
 <div align="center">
   <table>
     <tr>
-      <td align="center"><img src="webCore/assets/images/settingsOverview.gif" width="440" height="200" alt="Feature 1"></td>
-      <td align="center"><img src="webCore/assets/images/ollamaAndUserTools.gif" width="440" height="200" alt="Feature 2"></td>
+      <td align="center"><img src="webCore/assets/images/settingsOverview.gif" width="400" height="200" alt="Feature 1"></td>
+      <td align="center"><img src="webCore/assets/images/ollamaAndUserTools.gif" width="400" height="200" alt="Feature 2"></td>
     </tr>
     <tr>
-      <td align="center"><img src="webCore/assets/images/aiCardgen.gif" width="440" height="200" alt="Feature 3"></td>
-      <td align="center"><img src="webCore/assets/images/practiceCards.gif" width="440" height="200" alt="Feature 4"></td>
+      <td align="center"><img src="webCore/assets/images/aiCardgen.gif" width="400" height="200" alt="Feature 3"></td>
+      <td align="center"><img src="webCore/assets/images/practiceCards.gif" width="400" height="200" alt="Feature 4"></td>
     </tr>
   </table>
 </div
