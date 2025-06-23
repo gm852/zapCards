@@ -4,12 +4,12 @@
 <div align="center">
   <table>
     <tr>
-      <td align="center"><img src="webCore/assets/images/aiAndGeneralSettings.png" width="480" height="220" alt="Feature 1"></td>
-      <td align="center"><img src="webCore/assets/images/ollamaConfig.png" width="480" height="220" alt="Feature 2"></td>
+      <td align="center"><img src="webCore/assets/images/settingsOverview.gif" width="480" height="220" alt="Feature 1"></td>
+      <td align="center"><img src="webCore/assets/images/ollamaAndUserTools.gif" width="480" height="220" alt="Feature 2"></td>
     </tr>
     <tr>
-      <td align="center"><img src="webCore/assets/images/aiCardgen.png" width="480" height="220" alt="Feature 3"></td>
-      <td align="center"><img src="webCore/assets/images/practiceCards.png" width="480" height="220" alt="Feature 4"></td>
+      <td align="center"><img src="webCore/assets/images/aiCardgen.gif" width="480" height="220" alt="Feature 3"></td>
+      <td align="center"><img src="webCore/assets/images/practiceCards.gif" width="480" height="220" alt="Feature 4"></td>
     </tr>
   </table>
 </div
@@ -78,7 +78,14 @@ sudo systemctl restart zapcards.service
 ```bash
 git clone https://github.com/gm852/zapcards.git
 cd zapcards
-sudo docker compose up --build -d
+sudo docker build -t zapcards .
+sudo docker run -d \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -p 8089:8089 \
+  --name zapcards \
+  --restart unless-stopped \
+  zapcards
+
 ```
 
 ---

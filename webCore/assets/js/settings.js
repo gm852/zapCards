@@ -83,15 +83,36 @@ async function restartZapCards() {
         try {
             const response = await fetch('/api/system/restart', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ service: "zapcards" })
             });
-            notyf.success('ZapCards is restarting...');
+            
+            const result = await response.json();
+            
+            if (result.status) {
+                const method = result.method === 'docker' ? 'Docker container' : 'systemd service';
+                notyf.success(`ZapCards is restarting via ${method}...`);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 4000);
+            } else {
+                notyf.error(`Failed to restart ZapCards: ${result.message}`);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 4000);
+            }
         } catch (err) {
-            notyf.error('Failed to restart ZapCards');
+            notyf.error('Failed to restart or server did not respond because of restart.');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 4000);
         }
     }
 }
+
+
 async function restartOllamaService() {
     if (confirm('Are you sure you want to restart Ollama Serivce? This will temporarily interrupt service.')) {
         try {
@@ -100,9 +121,9 @@ async function restartOllamaService() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ service: "ollama" })
             });
-            notyf.success('ZapCards is restarting...');
+            notyf.success('Ollama is restarting...');
         } catch (err) {
-            notyf.error('Failed to restart ZapCards');
+            notyf.error('Failed to restart Ollama');
         }
     }
 }
@@ -150,7 +171,7 @@ async function saveSettings() {
         });
 
         if (response.ok) {
-            notyf.success('Settings saved successfully!');
+            notyf.success('Settings saved! You need to "Restart ZapCards" for changes to apply.');
         } else {
             const error = await response.json();
             notyf.error(error.message || 'Failed to save settings');

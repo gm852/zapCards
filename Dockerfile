@@ -6,8 +6,14 @@ WORKDIR /app
 
 # system dependencies
 RUN apt-get update && \
-    apt-get install -y python3-venv && \
+    apt-get install -y python3-venv curl && \
     apt-get clean
+
+ENV DOCKER_VERSION='27.0.1'
+
+RUN set -ex \
+    && DOCKER_FILENAME=https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
+    && curl -L ${DOCKER_FILENAME} | tar -C /usr/bin/ -xzf - --strip-components 1 docker/docker
 
 
 # application files

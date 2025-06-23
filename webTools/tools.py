@@ -1,5 +1,5 @@
 
-import random, json, re
+import asyncio, json, re, logging
 
 
 class internalTools():
@@ -41,3 +41,44 @@ class internalTools():
         except json.JSONDecodeError as e:
             print(f"[ERROR] JSON parsing failed: {e}")
         return False
+    
+
+    async def check_docker_container(self):
+        """Check if service is running as a Docker container"""
+        try:
+            # check if we're running inside a container
+            try:
+                with open('/.dockerenv', 'r'):
+                    logging.info("Detected running inside Docker container")
+                    return True
+            except FileNotFoundError:
+                return False
+        except Exception as e:
+            logging.error(f"Docker check failed: {str(e)}")
+            return False
+
+    async def restart_docker_container(self, service_name):
+        """Restart Docker container"""
+        try:
+            process = await asyncio.create_subprocess_exec(
+                "docker", "restart", service_name,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await process.communicate()
+            return process.returncode == 0, stdout.decode(), stderr.decode()
+        except Exception as e:
+            return False, "", str(e)
+
+    async def restart_systemd_service(self, service_name):
+        """Restart systemd service"""
+        try:
+            process = await asyncio.create_subprocess_exec(
+                "sudo", "systemctl", "restart", f"{service_name}.service",
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await process.communicate()
+            return process.returncode == 0, stdout.decode(), stderr.decode()
+        except Exception as e:
+            return False, "", str(e)

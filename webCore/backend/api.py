@@ -241,27 +241,45 @@ async def apiWebObj_users(request) -> HTTPResponse:
 async def apiWebObj_restart(request) -> HTTPResponse:
     try:
         reqData = request.json
+        service_name = reqData.get("service")
+        
+        if service_name not in ["zapcards", "ollama"]:
+            return sanic.response.json({
+                "status": False, 
+                "message": "Invalid service"
+            })
 
-        if not reqData["service"] in ["zapcards", "ollama"]:
-            return sanic.response.json({"status": False, "message": "Invalid service"})
+        logging.info(f"Restarting service ==> {service_name}")
+        
+        # Check if running in Docker
+        is_docker = await request.ctx.toolkitObj.check_docker_container()
+        print(f"is docker ==> {is_docker}")
 
-        logging.info(f"Restarting service ==> {reqData['service']}")
-        process = await asyncio.create_subprocess_exec(
-            "sudo", "systemctl", "restart", f"{reqData['service']}.service",
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE
-        )
-        stdout, stderr = await process.communicate()
-
-        if process.returncode == 0:
-            return sanic.response.json({"status": True, "message": "Service restart initiated."})
+        if is_docker:
+            logging.info(f"Service {service_name} detected as Docker container")
+            success, stdout, stderr = await request.ctx.toolkitObj.restart_docker_container(service_name)
+            restart_method = "Docker container"
+        else:
+            logging.info(f"Service {service_name} detected as systemd service")
+            success, stdout, stderr = await request.ctx.toolkitObj.restart_systemd_service(service_name)
+            restart_method = "systemd service"
+        
+        if success:
+            return sanic.response.json({
+                "status": True,
+                "message": f"Service restart initiated via {restart_method}.",
+                "method": "docker" if is_docker else "systemd"
+            })
         else:
             return sanic.response.json({
                 "status": False,
-                "message": "Failed to restart service.",
-                "stderr": stderr.decode()
+                "message": f"Failed to restart {restart_method}.",
+                "stderr": stderr,
+                "method": "docker" if is_docker else "systemd"
             }, status=500)
+            
     except Exception as e:
+        logging.error(f"Exception in restart endpoint: {str(e)}")
         return sanic.response.json({
             "status": False,
             "message": f"Exception occurred: {str(e)}"
