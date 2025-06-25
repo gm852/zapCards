@@ -44,6 +44,11 @@ fi
 
 echo "🛠️ Installing $APP_NAME..."
 
+# install dependencies
+echo "📦 Ensuring required packages are installed..."
+apt update
+apt install -y git python3 python3-venv python3-pip
+
 # clone the repo
 if [ ! -d "$INSTALL_DIR" ]; then
   echo "📥 Cloning the repository..."
